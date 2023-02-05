@@ -228,4 +228,42 @@ void W25Q128 :: read_data(uint32_t addr,char block[], uint8_t len)
 
 }
 
+uint8_t W25Q128 :: read_int_data(uint32_t addr)
+{
+    uint8_t rec_data = 0;
+    uint8_t buf[1] = { READ_DATA_INST };
+    uint8_t msb[3] = { ((addr >> 16) & (0xff)), ((addr >> 8) & (0xff)), (addr & 0xff) };
 
+    csnLow();
+
+    spi_write_blocking(this->inst, buf, 1);
+    spi_write_blocking(this->inst, msb, 3);
+
+    spi_read_blocking(this->inst, 0xff, &rec_data, 1);
+
+    csnHigh();
+
+    return rec_data;
+}
+
+void W25Q128 :: write_int_data(uint32_t addr, uint8_t data[], uint8_t size)
+{
+    uint8_t buf[1] = { PAGE_PROGRAM_INST };
+    uint8_t msb[3] = { ((addr >> 16) & (0xff)), ((addr >> 8) & (0xff)), (addr & 0xff) };
+
+    write_enable();
+    
+    csnLow();
+    
+    spi_write_blocking(inst, buf, 1);
+    spi_write_blocking(inst, msb, 3);
+
+    for(uint8_t i = 0; i<size; i++)
+    {
+        uint8_t dbuf[1] = { data[i] };
+        spi_write_blocking(inst, dbuf, 1);
+    }
+    
+    csnHigh();
+
+}

@@ -77,6 +77,10 @@ class W25Q128
         
         uint8_t write_status_reg(uint8_t addr, uint8_t data);
 
+        void write_int_data(uint32_t addr, uint8_t data[], uint8_t size);
+
+        uint8_t read_int_data(uint32_t addr);
+
         void write_data(uint32_t addr, char block[], uint8_t size);
 
         char read_byte(uint32_t addr)
