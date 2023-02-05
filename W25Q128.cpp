@@ -109,8 +109,6 @@ void W25Q128 :: chip_erase()
     csnLow();
     spi_write_blocking(inst, buf, 1);
     csnHigh();
-
-    sleep_ms(200000);
 }
 
 
@@ -126,8 +124,6 @@ void W25Q128 :: sector_erase(uint32_t addr)
     spi_write_blocking(inst, buf, 1);
     spi_write_blocking(inst, msb, 3);
     csnHigh();
-    
-    sleep_ms(400);
 }
 
 void W25Q128 :: block_erase_32KB(uint32_t addr)
@@ -142,8 +138,7 @@ void W25Q128 :: block_erase_32KB(uint32_t addr)
     spi_write_blocking(inst, buf, 1);
     spi_write_blocking(inst, msb, 3);
     csnHigh();
-    
-    sleep_ms(400);
+
 }
 
 void W25Q128 :: block_erase_64KB(uint32_t addr)
@@ -158,8 +153,7 @@ void W25Q128 :: block_erase_64KB(uint32_t addr)
     spi_write_blocking(inst, buf, 1);
     spi_write_blocking(inst, msb, 3);
     csnHigh();
-    
-    sleep_ms(400);
+
 }
 
 uint8_t W25Q128 :: read_status_reg(uint8_t addr)
